@@ -34,12 +34,19 @@
         }
 
         .slide-container {
+            position: absolute;
+            top: 0;
+            left: 0;
             height: 100vh;
             width: 100vw;
-            display: flex;
+            display: none;
             align-items: center;
             justify-content: center;
             padding: 60px;
+        }
+
+        .slide-container.active {
+            display: flex;
         }
 
         .slide {
@@ -66,6 +73,7 @@
             font-size: 4rem;
             font-weight: 700;
             margin-bottom: 1rem;
+            color: var(--cursor-blue);
             background: linear-gradient(135deg, var(--cursor-blue), #64B5F6);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
@@ -541,7 +549,7 @@
     <div class="progress-bar" id="progress"></div>
 
     <!-- Slide 1: Title -->
-    <div class="slide-container">
+    <div class="slide-container active">
         <div class="slide active title-slide" data-slide="1">
             <h1>CURSOR SDLC WORKSHOP</h1>
             <p class="tagline">Experience the Software Development Lifecycle Firsthand</p>
@@ -1215,12 +1223,16 @@
 
         function showSlide(n) {
             const slides = document.querySelectorAll('.slide');
+            const containers = document.querySelectorAll('.slide-container');
             
-            if (n > totalSlides) currentSlide = 1;
-            if (n < 1) currentSlide = totalSlides;
+            currentSlide = n;
+            if (currentSlide > totalSlides) currentSlide = 1;
+            if (currentSlide < 1) currentSlide = totalSlides;
             
             slides.forEach(slide => slide.classList.remove('active'));
+            containers.forEach(container => container.classList.remove('active'));
             slides[currentSlide - 1].classList.add('active');
+            containers[currentSlide - 1].classList.add('active');
             
             document.getElementById('currentSlide').textContent = currentSlide;
             document.getElementById('prevBtn').disabled = currentSlide === 1;

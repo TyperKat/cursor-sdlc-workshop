@@ -161,12 +161,16 @@
 
     function runPhase(phases, phaseIndex) {
       if (!isRunning) return;
-      const phase = phases[phaseIndex];
+      var phase = phases[phaseIndex];
       cueEl.textContent = phase.label;
 
-      timeoutId = setTimeout(() => {
-        const next = (phaseIndex + 1) % phases.length;
-        runPhase(phases, next);
+      breathEl.classList.remove('inhale', 'hold', 'exhale');
+      void breathEl.offsetWidth;
+      breathEl.classList.add(phase.cls);
+
+      timeoutId = setTimeout(function() {
+        var next = (phaseIndex + 1) % phases.length;
+        runPhase(next);
       }, phase.duration * 1000);
     }
 
@@ -187,7 +191,7 @@
       cueEl.textContent = 'Click Start to begin';
       startBtn.disabled = false;
       stopBtn.disabled = true;
-      patternBtns.forEach(btn => { btn.disabled = false; });
+      breathEl.classList.remove('inhale', 'hold', 'exhale');
     }
 
     startBtn.addEventListener('click', start);
